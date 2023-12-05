@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Button Click Example</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    #header {
+      position: sticky;
+      top: 0;
+      background-color: #f1f1f1;
+      padding: 10px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    #container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+    }
+
+    #lotsize,
+    #risk,
+    #prices,
+    #chart-container,
+    #buttons-divs {
+      width: 100%;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #lotsize button,
+    #risk button,
+    #takeprofit button,
+    #stoploss button,
+    #buttons-divs button {
+      flex-grow: 1;
+      margin: 0px;
+      font-size: 14px;
+      border: none;
+      position: relative;
+    }
+
+    #lotsize button:not(:last-child)::after,
+    #risk button:not(:last-child)::after,
+    #takeprofit button:not(:last-child)::after,
+    #stoploss button:not(:last-child)::after,
+    #buttons-divs button:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -1px;
+      height: 100%;
+      width: 1px;
+      background-color: #ccc;
+    }
+
+    #prices {
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .price-box {
+      flex-grow: 1;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      border: none;
+      position: relative;
+    }
+
+    .price-box:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -1px;
+      height: 100%;
+      width: 1px;
+      background-color: #ccc;
+    }
+
+    #chart-container canvas {
+      width: 100%;
+      height: auto;
+    }
+
+    #footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: grey;
+    }
+    .sell{
+      background-color: red;
+      color:white;
+      padding: 5px;
+      margin: 0px;
+    }
+    .buy{
+      background-color: blue ;
+      color:white;
+      padding: 5px;
+      margin: 0px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="header">
+  EURUSD
+</div>
+
+<script>
+  function changeToInput() {
+    let screenButton = document.querySelector('.screen');
+
+    // Create an input element
+    let inputElement = document.createElement('input');
+    inputElement.type = 'number';
+    inputElement.value = parseFloat(screenButton.innerText);
+
+    // Replace the button with the input element
+    screenButton.parentNode.replaceChild(inputElement, screenButton);
+
+    // Set focus on the input element
+    inputElement.focus();
+
+    // Handle input change
+    inputElement.addEventListener('blur', function () {
+      let newValue = parseFloat(inputElement.value) || 0;
+      inputElement.parentNode.replaceChild(screenButton, inputElement);
+      screenButton.innerText = newValue.toFixed(2);
+    });
+  </script>
+
+  <div id="container">
+    <div id="lotsize">
+      <button onclick="
+        let var1 = parseFloat(document.querySelector('.screen').innerText);
+        var1 -= 0.1;
+        document.querySelector('.screen').innerText = var1.toFixed(2);
+      ">
+        -0.1
+      </button>
+
+      <button onclick="
+        let var1 = parseFloat(document.querySelector('.screen').innerText);
+        var1 -= 0.01;
+        document.querySelector('.screen').innerText = var1.toFixed(2);
+      ">
+        -0.01
+      </button>
+
+      <button class="screen" onclick="changeToInput()">
+        0.01
+      </button>
+
+      <button onclick="
+        let var1 = parseFloat(document.querySelector('.screen').innerText);
+        var1 += 0.01;
+        document.querySelector('.screen').innerText = var1.toFixed(2);
+      ">
+        +0.01
+      </button>
+
+      <button onclick="
+        let var1 = parseFloat(document.querySelector('.screen').innerText);
+        var1 += 0.1;
+        document.querySelector('.screen').innerText = var1.toFixed(2);
+      ">
+        +0.1
+      </button>
+    </div>
+
+    <div id="risk">
+      <div id="stoploss">
+        <button>
+          stop loss
+        </button>
+        <button class="SLminus" onclick="
+          let SLNumber = parseFloat(document.querySelector('.SLnumbers').innerText);
+          SLNumber -= 0.01;
+          document.querySelector('.SLnumbers').innerText = SLNumber.toFixed(5);
+        ">
+          -
+        </button>
+        <button class="SLnumbers">
+          1.08327
+        </button>
+        <button class="SLplus" onclick="
+          let SLNumber = parseFloat(document.querySelector('.SLnumbers').innerText);
+          SLNumber += 0.01;
+          document.querySelector('.SLnumbers').innerText = SLNumber.toFixed(5);
+        ">
+          +
+        </button>
+      </div>
+
+      <div id="takeprofit">
+        <button>
+          take profit
+        </button>
+        <button class="TPminus" onclick="
+          let TPNumber = parseFloat(document.querySelector('.TPnumbers').innerText);
+          TPNumber -= 0.01;
+          document.querySelector('.TPnumbers').innerText = TPNumber.toFixed(5);
+        ">
+          -
+        </button>
+        <button class="TPnumbers">
+          1.08327
+        </button>
+        <button class="TPplus" onclick="
+          let TPNumber = parseFloat(document.querySelector('.TPnumbers').innerText);
+          TPNumber += 0.01;
+          document.querySelector('.TPnumbers').innerText = TPNumber.toFixed(5);
+        ">
+          +
+        </button>
+      </div>
+    </div>
+
+    <div id="prices">
+      <div class="price-box">
+        1.08327
+      </div>
+
+      <div class="price-box">
+        1.08327
+      </div>
+    </div>
+
+    <div id="buttons-divs">
+      <button class="sell">
+        Sell by Market
+      </button>
+      <button class="buy">
+        Buy by Market
+      </button>
+    </div>
+  </div>
+
+  <div id="chart-container">
+    <canvas id="lineChart" width="300" height="150"></canvas>
+  </div>
+
+  <p id="footer">
+    Attention! The trade will be executed at market conditions; the difference with the requested price may be significant.
+  </p>
+
+  <script>
+    // Initialize Chart.js
+    const ctx = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Random Line 1',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            data: [],
+          },
+          {
+            label: 'Random Line 2',
+            borderColor: 'rgba(0, 0, 255, 1)',
+            borderWidth: 2,
+            data: [],
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          title: {
+            display: false, // Set to false to hide the title
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                let label = context.dataset.label || '';
+
+                if (label) {
+                  label += ': ';
+                }
+
+                if (context.parsed.y !== null) {
+                  label += context.parsed.y.toFixed(4);
+                }
+
+                return label;
+              },
+            },
+          },
+        },
+        scales: {
+          x: {
+            display: false,
+          },
+          y: {
+            position: 'right',
+            min: 1.8000,
+            max: 2.0000,
+            ticks: {
+              step: 0.01,
+              callback: function (value) {
+                return value.toFixed(4);
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Function to update the chart with new random numbers
+    function updateChart() {
+      const newDataRandom1 = lineChart.data.datasets[0].data.slice();
+      newDataRandom1.push(getRandomNumber(1.8000, 2.0000));
+
+      const newDataRandom2 = lineChart.data.datasets[1].data.slice();
+      newDataRandom2.push(newDataRandom1[newDataRandom1.length - 1] - 0.03); // Making Line 2 0.03 lower
+
+      const newLabels = lineChart.data.labels.slice();
+      newLabels.push(newLabels.length);
+
+      lineChart.data.datasets[0].data = newDataRandom1;
+      lineChart.data.datasets[1].data = newDataRandom2;
+      lineChart.data.labels = newLabels;
+
+      // Keep a maximum of 20 data points for better visualization
+      if (newDataRandom1.length > 20) {
+        newDataRandom1.shift();
+        newDataRandom2.shift();
+        newLabels.shift();
+      }
+
+      lineChart.update();
+    }
+
+    // Function to generate a random number within the specified range
+    function getRandomNumber(min, max) {
+      return parseFloat((Math.random() * (max - min) + min).toFixed(4));
+    }
+
+    // Update the chart every second
+    setInterval(updateChart, 1000);
+  </script>
+</body>
+</html>
