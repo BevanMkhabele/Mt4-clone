@@ -1,68 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Candy Crush</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
         }
 
-        #game-board {
-            display: grid;
-            grid-template-columns: repeat(8, 50px);
-            gap: 5px;
+        .header {
+            background-color: #fff;
+            padding: 10px;
+            color: #333;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .cell {
-            width: 50px;
-            height: 50px;
-            border: 1px solid #ccc;
+        .menu-button {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 16px;
             cursor: pointer;
         }
+
+        .logo {
+            flex: 1;
+            text-align: center;
+        }
+
+        .card {
+            display: flex;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 300px;
+            margin: 20px auto;
+        }
+
+        .column1 {
+            flex: 1;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+        }
+
+        .column1 img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            grid-column: 1;
+            grid-row: 1 / span 2;
+        }
+
+        .column1 .content {
+            grid-column: 2;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content div {
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .content .rectangular {
+            font-weight: bold;
+            font-family: arial;
+        }
+
+        .content .rectangular2 {
+            font-weight: bold;
+        }
+
+        .content .rectangular3 {
+            font-weight: bold;
+        }
+
+        h1.semester {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        .new-card {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 300px;
+            margin: 20px auto;
+        }
+
+        .table-container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 5px; /* Added 5px padding horizontally */
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .table-content {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .table-column {
+            flex: 1;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            padding: 10px 5px; /* Added 5px padding horizontally */
+        }
+
+        .table-column:last-child {
+            border-right: none;
+        }
+
+        .additional-info {
+            margin: 20px;
+        }
+
+        .additional-info p {
+            margin-bottom: 10px;
+        }
     </style>
+    <title>Card with Two Columns</title>
 </head>
+
 <body>
-    <div id="game-board"></div>
 
-    <script>
-        const numRows = 8;
-        const numCols = 8;
+    <div class="header">
+        <button class="menu-button">&#9776; </button>
+        <div class="logo">
+            <p>Exams Portal</p>
+        </div>
+    </div>
 
-        // Function to create the game board
-        function createGameBoard() {
-            const gameBoard = document.getElementById("game-board");
+    <div class="card">
+        <div class="column1">
+            <img class="userpro" src="userpro.jpeg" alt="Profile Picture">
+            <div class="content">
+                <div class="rectangular"> Student Number: 224627050</div>
+                <div class="rectangular">Mr Bevan Ndzhaka Mkhabele </div>
+                <div class="rectangular">Year : 2023</div>
+            </div>
+        </div>
+    </div>
 
-            for (let row = 0; row < numRows; row++) {
-                for (let col = 0; col < numCols; col++) {
-                    const cell = document.createElement("div");
-                    cell.className = "cell";
-                    cell.dataset.row = row;
-                    cell.dataset.col = col;
-                    cell.addEventListener("click", handleCellClick);
-                    gameBoard.appendChild(cell);
-                }
-            }
-        }
+    <h1 class="semester">
+        2023 Second Semester
+    </h1>
 
-        // Function to handle cell click
-        function handleCellClick(event) {
-            const clickedCell = event.target;
-            const row = clickedCell.dataset.row;
-            const col = clickedCell.dataset.col;
+    <div class="new-card">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Sem-Period</th>
+                        <th>Admision</th>
+                        <th>Mark</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>COHF50D</td>
+                        <td>2 SEM</td>
+                        <td>YES</td>
+                        <td>72</td>
+                        <td>DISTINCTION </td>
+                    </tr>
+                    <tr>
+                        <td>PPAF05D</td>
+                        <td>2 SEM</td>
+                        <td>YES</td>
+                        <td>67</td>
+                        <td>DISTINCTION </td>
+                    </tr>
+                    <tr>
+                        <td>CFBF15D</td>
+                        <td>1 SEM</td>
+                        <td>YES</td>
+                        <td>88</td>
+                        <td>DISTINCTION </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-            // Add your game logic here
+    <div class="additional-info">
+        <ol>
+            <li>Graduation Enquiries: <a href="www.tut.ac.za/graduations/about">www.tut.ac.za/graduations/about</a></li>
+            <li>Closing date for Exit Examination Applications: 19 January 2024. (N/A to Distance Education Students).</li>
+            <li>Closing Date for Examination Enquiries: 26 January 2024</li>
+            <li>Exit Examination: 5 - 9 February 2024. (N/A to Distance Education Students).</li>
+        </ol>
+    </div>
 
-            console.log(`Cell clicked: Row ${row}, Col ${col}`);
-        }
-
-        // Initialize the game board
-        createGameBoard();
-    </script>
 </body>
+
 </html>
